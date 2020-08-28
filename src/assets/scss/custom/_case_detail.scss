@@ -1,0 +1,35 @@
+.case-detail{
+  min-height: 81.5vh;
+  .case-detail-container{
+    min-width: 150px !important;
+    width: 225px;
+    overflow: hidden;
+    padding: 33px 10px 50px 50px;
+    min-height: 100%;
+    background-color: $off-white;
+  }
+  .tab-nav-container{
+      padding: 40px;
+      border-bottom: 1px solid $gray-2;
+      .MuiTab-root {
+        min-width: 100px;
+      }
+  }
+}
+.case-detail-show-hide-btn{
+  position: relative;
+  top: -78px;
+  // top: -15px;
+  border: 1px solid gray;
+  border-radius: 100px;
+  background: white;
+  color: gray;
+  font-size: 17px;
+  padding: 5px;
+  &.opened{
+    left: -15px;
+  }
+  &.closed{
+    left: -8px;
+  }
+}
