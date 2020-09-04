@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { List } from "immutable";
 import {
   makeStyles,
   Paper,
@@ -17,7 +16,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Loader from "../../../components/Loader";
 import { caseListData } from "../../../assets/mock/DummyData";
 
-interface Column {
+interface IColumn {
   id:
     | "caseNumber"
     | "caseType"
@@ -33,7 +32,7 @@ interface Column {
   format?: (value: number) => string;
 }
 
-const columns: Column[] = [
+const columns: IColumn[] = [
   { id: "caseNumber", label: "Case Number", minWidth: 170 },
   { id: "caseType", label: "Type", minWidth: 100 },
   {
@@ -103,18 +102,15 @@ const useStyles = makeStyles({
 export default function CasesList(props: {
   isLoading?: boolean;
   caseList?: any;
+  data?: any;
 }) {
   const history = useHistory();
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [cases, setCases] = useState(List());
-
-  const { caseList } = props;
+  const { caseList, data } = props;
   useEffect(() => {
-    const result = caseList();
-    setCases(result);
-    // console.log(cases);
+    caseList();
   }, [caseList]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -156,36 +152,42 @@ export default function CasesList(props: {
             </TableRow>
           </TableHead>
           <TableBody>
-            {caseListData
+            {data
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow
-                    className={classes.rowContainer}
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.caseNumber}
-                    onClick={() => {
-                      onRowClick(`/case/${row.id}/detail`);
-                    }}
-                  >
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {value}
-                        </TableCell>
-                      );
-                    })}
-                    <TableCell>
-                      <IconButton className={classes.editIcon}>
-                        <EditIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              .map(
+                (row: {
+                  [x: string]: any;
+                  caseNumber: string | number | null | undefined;
+                  id: any;
+                }) => {
+                  return (
+                    <TableRow
+                      className={classes.rowContainer}
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.caseNumber}
+                      onClick={() => {
+                        onRowClick(`/case/${row.id}/detail`);
+                      }}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {value}
+                          </TableCell>
+                        );
+                      })}
+                      <TableCell>
+                        <IconButton className={classes.editIcon}>
+                          <EditIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              )}
           </TableBody>
         </Table>
       </TableContainer>

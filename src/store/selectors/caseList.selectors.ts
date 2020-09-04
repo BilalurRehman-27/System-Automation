@@ -7,7 +7,7 @@ export const getCases = (state: any) => {
 };
 
 export const getCasesList = createSelector(getCases, (listItems) => {
-  return listItems.get("caseResults") || List();
+  return listItems.getIn(["caseResults", "data"]) || List();
 });
 
 export const getCasesLoadingStatus = createSelector(getCases, (listItems) => {

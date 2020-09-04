@@ -8,9 +8,9 @@ import {
 } from "../../../store/selectors/caseList.selectors";
 
 const mapStateToProps = (state: CaseList) => {
-  const caseList = getCasesList(state);
+  const data = getCasesList(state);
   const isLoading = getCasesLoadingStatus(state);
-  return { caseList, isLoading };
+  return { data, isLoading };
 };
 
 const mapDispatchToProps = {
