@@ -1,4 +1,5 @@
 import React, { FunctionComponent, Fragment } from "react";
+import { Grid } from "@material-ui/core";
 type TitleProps = {
   titleText: string,
   respondent?: { name: string },
@@ -7,7 +8,7 @@ type TitleProps = {
 
 const Title: FunctionComponent<TitleProps> = (props) => {
   return (
-    <Fragment>
+    <Grid item sm={12} md={4} lg={4} className="header-title">
       <div className="header-title">
         {props.titleText}
         {props.respondent && props.registrant &&
@@ -21,7 +22,7 @@ const Title: FunctionComponent<TitleProps> = (props) => {
           </Fragment>
         }
       </div>
-    </Fragment>
+    </Grid>
   );
 };
 

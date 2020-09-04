@@ -54,16 +54,13 @@
   }
 }
 .header{
-  display: flex;
-  justify-content: space-between;
   background-color: $white;
   border-bottom: 1px solid black;
   height: auto;
   .header-title{
     font-size: 25px;
     font-weight: 600;
-    padding: 20px 50px;
-    max-width: 400px;
+    padding: 10px 20px;
     height: auto;
   }
   .header-sub-title{

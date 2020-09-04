@@ -6,6 +6,7 @@ import Reports from '../views/Reports/Reports';
 import Dashboard from '../views/Dashboard';
 import CaseDetailTabs from '../views/CaseDetailTabs/CaseDetailTabs';
 
+// TODO: need to add navigation router param which would be true/false
 export default [
   {
     path: '/todo',

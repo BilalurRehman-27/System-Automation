@@ -13,7 +13,7 @@ type DatePickerProps = {
 const DatePicker: FunctionComponent<DatePickerProps> = (props) => {
   // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
+    new Date()
   );
 
   const handleDateChange = (date: Date | null) => {
@@ -24,7 +24,6 @@ const DatePicker: FunctionComponent<DatePickerProps> = (props) => {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container justify="space-around">
         <KeyboardDatePicker
-          disableToolbar
           variant="inline"
           format="MM/dd/yyyy"
           margin="dense"

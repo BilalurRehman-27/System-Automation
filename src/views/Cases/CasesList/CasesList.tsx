@@ -1,22 +1,21 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import MultiSelectComponent from "../../../components/MultiSelectComponent";
+import React, { useEffect, useState } from "react";
+import { List } from "immutable";
+import {
+  makeStyles,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  IconButton,
+} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import EditIcon from "@material-ui/icons/Edit";
+import Loader from "../../../components/Loader";
 import { caseListData } from "../../../assets/mock/DummyData";
-interface Data {
-  caseNumber: string;
-  caseType: string;
-  dateOpened: number;
-  size: number;
-  density: number;
-}
 
 interface Column {
   id:
@@ -25,7 +24,7 @@ interface Column {
     | "dateOpened"
     | "dateClosed"
     | "status"
-    | "respondant"
+    | "respondent"
     | "investigator"
     | "summary";
   label: string;
@@ -35,19 +34,19 @@ interface Column {
 }
 
 const columns: Column[] = [
-  { id: "caseNumber", label: "Case-Number", minWidth: 170 },
+  { id: "caseNumber", label: "Case Number", minWidth: 170 },
   { id: "caseType", label: "Type", minWidth: 100 },
   {
     id: "dateOpened",
     label: "Open Date",
-    minWidth: 100,
+    minWidth: 200,
     align: "left",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
     id: "dateClosed",
     label: "Close Date",
-    minWidth: 100,
+    minWidth: 200,
     align: "left",
     format: (value: number) => value.toLocaleString("en-US"),
   },
@@ -58,8 +57,8 @@ const columns: Column[] = [
     align: "left",
   },
   {
-    id: "respondant",
-    label: "Respondant",
+    id: "respondent",
+    label: "Respondent",
     minWidth: 100,
     align: "left",
   },
@@ -76,7 +75,6 @@ const columns: Column[] = [
     align: "left",
   },
 ];
-
 const useStyles = makeStyles({
   root: {
     padding: 40,
@@ -86,12 +84,38 @@ const useStyles = makeStyles({
     maxHeight: "100%",
     backgroundColor: "#FFFFFF",
   },
+  editIcon: {
+    opacity: 0,
+  },
+  rowContainer: {
+    cursor: "pointer",
+    "&:hover ": {
+      backgroundColor: "#eeeeee",
+      transition: "ease-in 200ms",
+      "& button": {
+        opacity: 1,
+        transition: "ease-in 200ms",
+      },
+    },
+  },
 });
 
-export default function CasesList() {
+export default function CasesList(props: {
+  isLoading?: boolean;
+  caseList?: any;
+}) {
+  const history = useHistory();
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [cases, setCases] = useState(List());
+
+  const { caseList } = props;
+  useEffect(() => {
+    const result = caseList();
+    setCases(result);
+    // console.log(cases);
+  }, [caseList]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -104,6 +128,11 @@ export default function CasesList() {
     setPage(0);
   };
 
+  const onRowClick = (path: string) => {
+    history.push(path);
+  };
+  const isLoading = props.isLoading;
+  if (isLoading) return <Loader />;
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
@@ -114,11 +143,16 @@ export default function CasesList() {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight: "bold" ,fontSize:'12px'}}
+                  style={{
+                    minWidth: column.minWidth,
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                  }}
                 >
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -127,23 +161,28 @@ export default function CasesList() {
               .map((row) => {
                 return (
                   <TableRow
+                    className={classes.rowContainer}
                     hover
                     role="checkbox"
                     tabIndex={-1}
                     key={row.caseNumber}
+                    onClick={() => {
+                      onRowClick(`/case/${row.id}/detail`);
+                    }}
                   >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {typeof value === "string" ? (
-                            value
-                          ) : (
-                            <MultiSelectComponent data={value} label="" />
-                          )}
+                          {value}
                         </TableCell>
                       );
                     })}
+                    <TableCell>
+                      <IconButton className={classes.editIcon}>
+                        <EditIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 );
               })}

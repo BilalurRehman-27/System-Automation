@@ -1,5 +1,6 @@
-import createSagaMiddleware from 'redux-saga'
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./store/rootSaga";
+export const sagaMiddleware = createSagaMiddleware();
+sagaMiddleware.run(rootSaga);
 
-export const sagaMiddleware = createSagaMiddleware()
-
-export default [sagaMiddleware]
+export default [sagaMiddleware];
