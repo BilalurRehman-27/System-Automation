@@ -180,7 +180,7 @@ export const caseList = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non felis at magna tempor egestas et sed metus. Donec vel fringilla erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc vel erat ut turpis consectetur pulvinar. In hac habitasse platea dictumst.",
     complainant: userList[1],
     respondent: licenseList[2],
-    additionalData: {},
+    additionalData: null,
   },
   {
     id: 400,
@@ -548,7 +548,7 @@ export const CaseStatus = [
 
 export const modalData = [
   {
-    modalTitle: "Sample Title",
+    modalTitle: "Jorunal Entry",
     modalBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non felis at magna tempor egestas et sed metus. Donec vel fringilla erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc vel erat ut turpis consectetur pulvinar. In hac habitasse platea dictumst",
     fullWidth: true,
     maxWidth: 'md',
@@ -559,7 +559,7 @@ export const modalData = [
     modalBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non felis at magna tempor egestas et sed metus. Donec vel fringilla erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc vel erat ut turpis consectetur pulvinar. In hac habitasse platea dictumst",
     fullWidth: false,
     maxWidth: 'xl',
-  },{
+  }, {
     modalTitle: "Sample Title 3",
     modalBody: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non felis at magna tempor egestas et sed metus. Donec vel fringilla erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc vel erat ut turpis consectetur pulvinar. In hac habitasse platea dictumst",
     fullWidth: true,

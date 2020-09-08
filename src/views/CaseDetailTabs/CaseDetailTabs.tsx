@@ -15,6 +15,7 @@ import {
   Select,
   MenuItem,
   Grid,
+  Button,
 } from "@material-ui/core";
 import Header from "../../components/PageHeader/Header";
 import Title from "../../components/PageHeader/Title";
@@ -62,6 +63,53 @@ const CaseDetailTabs: FunctionComponent<CaseDetailTabsProps> = (props) => {
   const [value, setValue] = useState(0);
   const [doShowDetail, setDoShowDetail] = useState(true);
 
+  /* State for modals */
+  const [isOpen, setModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [addModal, setAddModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  /* Handle edit case button */
+  const handleEditCase = () => {
+    setModal(true);
+    setEditModal(true)
+  }
+
+  /* Handle add case button */
+  const handleAddCase = () => {
+    setModal(true);
+    setAddModal(true);
+  }
+
+  /* Handle delete case button */
+  const handleDeleteCase = () => {
+    setModal(true);
+    setDeleteModal(true);
+  }
+
+  /* Common onClose handler */
+  const onClose = () => {
+    console.log('onClose() called');
+    setModal(false);
+    setEditModal(false);
+    setAddModal(false);
+    setDeleteModal(false);
+  }
+
+  /* Common onSave handler */
+  const onSave = () => {
+    console.log('onSave() called');
+    setModal(false);
+    setEditModal(false);
+    setAddModal(false);
+  }
+
+  const onDelete = () => {
+    console.log('onDelete() called');
+    setModal(false);
+    setDeleteModal(false);
+  }
+
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
@@ -87,6 +135,16 @@ const CaseDetailTabs: FunctionComponent<CaseDetailTabsProps> = (props) => {
       color: theme.palette.primary.light,
       fontWeight: 500,
     },
+    addBtnContainer: {
+      display: "flex",
+      flexGrow: 1,
+      justifyContent: "flex-end",
+      '& button': {
+        maxHeight: 30,
+        maxWidth: 90,
+        alignSelf: "center"
+      }
+    }
   }))();
   //TODO: Might need in future 
   // const statusClasses = makeStyles((theme: Theme) => ({
@@ -323,6 +381,15 @@ const CaseDetailTabs: FunctionComponent<CaseDetailTabsProps> = (props) => {
                 label="Files"
                 {...a11yProps(4)}
               />
+              <div className={classes.addBtnContainer}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleAddCase}
+                >
+                  Add Entry
+                </Button>
+              </div>
             </Tabs>
           </div>
           <div className="d-flex tab-container">
@@ -343,7 +410,17 @@ const CaseDetailTabs: FunctionComponent<CaseDetailTabsProps> = (props) => {
               />
             )}
             <TabPanel value={value} index={0}>
-              <Entries />
+              <Entries
+                isOpen={isOpen}
+                editModal={editModal}
+                handleEditCase={handleEditCase}
+                deleteModal={deleteModal}
+                handleDeleteCase={handleDeleteCase}
+                addModal={addModal}
+                onSave={onSave}
+                onDelete={onDelete}
+                onClose={onClose}
+              />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <AuditHistory />
