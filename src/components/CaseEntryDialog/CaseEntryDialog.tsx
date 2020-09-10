@@ -27,9 +27,10 @@ type CaseEntryProps = {
 /* Styles for dialog */
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        dialog: {
-            minHeight: '80vh',
-            padding: 20
+        container: {
+            padding: 20,
+            display: "flex",
+            flexDirection: "column"
         },
         title: {
             color: '#757575',
@@ -38,10 +39,9 @@ const useStyles = makeStyles((theme: Theme) =>
         body: {
             display: "inherit",
             justifyContent: "space-between",
-            padding: 8
+            padding: 8,
         },
         typeFilter: {
-            flexGrow: 1,
             alignItems: "flex-end",
         },
         datePicker: {
@@ -53,8 +53,6 @@ const useStyles = makeStyles((theme: Theme) =>
         footer: {
             display: "inherit",
             justifyContent: "flex-end",
-            flex: "unset",
-            padding: 10,
             '& button': {
                 margin: theme.spacing(1),
             }
@@ -73,54 +71,60 @@ const CaseEntryDialog: FunctionComponent<CaseEntryProps> = (props) => {
     const [selectedType, setSelectedType] = useState(data.additionalData.tag);
 
     return (
-        <>
+        <Box className={classes.container}>
             <Box className={classes.body}>
                 <DialogTitle className={classes.title}>
                     {isEdit ? "Journal Entry" : "Add Journal Entry"}
                 </DialogTitle>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                        className={classes.datePicker}
-                        variant="inline"
-                        inputVariant="outlined"
-                        value={selectedDate}
-                        placeholder="10/10/2018"
-                        onChange={date => handleDateChange(date)}
-                        format="MM/dd/yyyy"
-                    />
-                </MuiPickersUtilsProvider>
             </Box>
             <Box className={classes.body}>
                 <TextField
-                    style={{ flexGrow: 2 }}
+                    style={{ flexGrow: 1 }}
                     variant="outlined"
                     placeholder={!isEdit ? "Add note..." : ""}
-                    // InputProps={{ disableUnderline: true }}
                     multiline
                     rows={20}
                     value={entryDetail}
                     onChange={(e): void => setEntryDetail(e.target.value)} />
-                <FormControl className={classes.typeFilter} variant="outlined">
-                    <Select
-                        style={{ minWidth: 160 }}
-                        value={selectedType}
-                        onChange={(e): void => setSelectedType(e.target.value)}>
-                        {caseList.map((item) => {
-                            return (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.additionalData ?
-                                        item.additionalData.tag : "Generic"}
-                                >
-                                    {item.additionalData ?
-                                        item.additionalData.tag : "Generic"}
-                                </MenuItem>
-                            )
-                        })}
-                    </Select>
-                </FormControl>
+                <Box ml={5}>
+                    <FormControl className={classes.typeFilter} variant="outlined">
+                        <Box>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    className={classes.datePicker}
+                                    variant="inline"
+                                    inputVariant="outlined"
+                                    value={selectedDate}
+                                    placeholder="10/10/2018"
+                                    onChange={date => handleDateChange(date)}
+                                    format="MM/dd/yyyy"
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Box>
+                        <Box mt={2}>
+                            <Select
+                                style={{ minWidth: 160 }}
+                                value={selectedType}
+                                onChange={(e): void => setSelectedType(e.target.value)}>
+                                {caseList.map((item) => {
+                                    return (
+                                        <MenuItem
+                                            key={item.id}
+                                            value={item.additionalData ?
+                                                item.additionalData.tag : "Generic"}
+                                        >
+                                            {item.additionalData ?
+                                                item.additionalData.tag : "Generic"}
+                                        </MenuItem>
+                                    )
+                                })}
+                            </Select>
+                        </Box>
+
+                    </FormControl>
+                </Box>
             </Box>
-            <Box className={classes.footer}>
+            <Box mt={2} className={classes.footer}>
                 <Button
                     disableElevation
                     variant="contained"
@@ -135,8 +139,10 @@ const CaseEntryDialog: FunctionComponent<CaseEntryProps> = (props) => {
                     Save
                     </Button>
             </Box>
-        </>
+        </Box>
     )
 }
 
 export default CaseEntryDialog
+
+

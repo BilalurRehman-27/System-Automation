@@ -3,6 +3,9 @@ import { asyncActionType } from "../utils/reduxActions";
 export const FILTER_ACTIONS = {
   GET_CASES_LIST: asyncActionType("[CASE_MANAGEMENT]GET_CASES_LIST"),
   GET_CASES_LIST_BEGIN: "[CASE_MANAGEMENT]GET_CASE_LIST_BEGIN",
+
+  GET_FILE_LIST:asyncActionType("[CASE_MANAGEMENT]GET_FILE_LIST"),
+  GET_FILE_LIST_BEGIN: "[CASE_MANAGEMENT]GET_FILE_LIST_BEGIN",
 };
 
 // Status types

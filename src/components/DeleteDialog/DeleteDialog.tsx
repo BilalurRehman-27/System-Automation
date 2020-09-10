@@ -14,8 +14,12 @@ type deleteModalProps = {
 };
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        footer: {
+            '& button': {
+                margin: theme.spacing(1)
+            }
+        },
         deleteButton: {
-            margin: theme.spacing(2),
             backgroundColor: "#D32F2F",
             color: "#fff",
             "&:hover": {
@@ -37,7 +41,7 @@ const DeleteDialog: FunctionComponent<deleteModalProps> = ({ ...props }) => {
                     {content}
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>
+            <DialogActions className={classes.footer}>
                 <Button
                     disableElevation
                     variant="contained"

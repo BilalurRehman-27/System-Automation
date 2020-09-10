@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useState } from "react";
+import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   IconButton,
   Box,
   Theme,
-  TextField,
   Typography,
   CardActions,
   CardContent,
@@ -14,26 +14,38 @@ import gray from "@material-ui/core/colors/grey";
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
-
+import InputTextComponent from "../../../../../components/InputTextField";
+import DatePicker from "../../../../../components/DatePicker";
 type ComplainantProps = {};
 
 const ComplainantCard: FunctionComponent<ComplainantProps> = (props) => {
   const [disabled, setDisabled] = useState(true);
+  const [dateOfReport, setDateOfReport] = useState(new Date());
+  const [report, setReport] = useState("");
+  const [title, setTitle] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [narrative, setNarrative] = useState("");
+
   const classes = makeStyles((theme: Theme) => ({
     root: {
       width: 500,
       minWidth: 275,
       display: "inline-block",
       "& .MuiTextField-root": {
-        // margin: theme.spacing(1),
-        width: "25ch",
-      },
-      ".Mui-disabled": {
-        color: theme.palette.primary.dark,
+        width: "38ch",
+        ".MuiOutlinedInput-notchedOutline": {
+          border:0
+        },
       },
     },
-    resize: {
+    inputCustomStyle: {
       fontSize: 13,
+      color: "#484848 !important",
+    },
+    disabled: {
+    //  cursor: "not-allowed",
+      color: "#484848 !important",
     },
     title: {
       color: "#3a96cd",
@@ -71,167 +83,247 @@ const ComplainantCard: FunctionComponent<ComplainantProps> = (props) => {
     customNarrative: {
       marginTop: "5%",
     },
+    borderedInputs: {
+      border: "1px solid rgb(0,0,0,0.23) !important",
+      padding: 10,
+      borderRadius: 3,
+      marginBottom: "5px",
+    },
   }))();
+  const customInputProps = classNames({
+    [classes.inputCustomStyle]: true,
+    [classes.disabled]: disabled,
+    [classes.borderedInputs]: !disabled,
+  });
   const toggleDisable = () => {
     setDisabled(!disabled);
   };
-
   const handleCloseIcon = () => {
     console.log("Closed");
     setDisabled(true);
   };
   const handleCheckIcon = () => {
-    console.log("Checked");
     setDisabled(true);
   };
-  return (
-    <Card className={classes.root}>
-      <CardContent>
-        <CardActions className={classes.editIcon}>
-          {disabled ? (
-            <IconButton onClick={toggleDisable}>
-              <EditIcon />
-            </IconButton>
-          ) : (
-            <>
-              <IconButton>
-                <CloseIcon style={{ color: "red" }} onClick={handleCloseIcon} />
-              </IconButton>
+  const onChangeDateOfReport = (date: Date) => {
+    setDateOfReport(date);
+  };
+  const onChangeReportInput = (text: string) => {
+    setReport(text);
+  };
+  const onChangeTitleInput = (text: string) => {
+    setTitle(text);
+  };
+  const onChangePhoneInput = (text: string) => {
+    setPhoneNumber(text);
+  };
+  const onChangeEmailInput = (text: string) => {
+    setEmail(text);
+  };
+  const onChangeNarrativeInput = (text: string) => {
+    setNarrative(text);
+  };
 
-              <IconButton>
-                <CheckIcon
+  return (
+    <form className={classes.root} noValidate autoComplete="off">
+      <Card>
+        <CardContent>
+          <CardActions className={classes.editIcon}>
+            {disabled ? (
+              <IconButton onClick={toggleDisable}>
+                <EditIcon />
+              </IconButton>
+            ) : (
+              <>
+                <IconButton style={{ color: "red" }} onClick={handleCloseIcon}>
+                  <CloseIcon />
+                </IconButton>
+
+                <IconButton
                   style={{ color: "green" }}
                   onClick={handleCheckIcon}
-                />
-              </IconButton>
-            </>
-          )}
-        </CardActions>
-        <Typography className={classes.title}>Complainant</Typography>
-        <Box className={classes.caseDataContainer}>
-          <Box display="flex">
-            <Box
-              display="flex"
-              width="50%"
-              justifyContent="flex-end"
-              className={classes.detailNodeLabel}
-            >
-              Date of Report
-            </Box>
-            <Box display="flex" width="100%" justifyContent="flex-start">
-              <TextField
-                disabled={disabled}
-                size="small"
-                id="standard-disabled"
-                defaultValue="08/17/2020"
+                >
+                  <CheckIcon />
+                </IconButton>
+              </>
+            )}
+          </CardActions>
+          <Typography className={classes.title}>Complainant</Typography>
+          <Box className={classes.caseDataContainer}>
+            <Box display="flex">
+              <Box
+                display="flex"
+                width="50%"
+                justifyContent="flex-end"
+                className={classes.detailNodeLabel}
+              >
+                Date of Report
+              </Box>
+              <Box
+                display="flex"
+                width="100%"
+                justifyContent="flex-start"
                 className={classes.detailNodeValue}
-                InputProps={{
-                  classes: {
-                    input: classes.resize,
-                  },
-                }}
-              />
+              >
+                <DatePicker
+                  disabled={disabled ? true : false}
+                  inputProps={customInputProps}
+                  disableUnderline={true}
+                  onChange={onChangeDateOfReport}
+                />
+              </Box>
+            </Box>
+            <Box display="flex">
+              <Box
+                display="flex"
+                width="50%"
+                justifyContent="flex-end"
+                className={classes.detailNodeLabel}
+              >
+                Report Prepared By
+              </Box>
+              <Box
+                display="flex"
+                width="100%"
+                justifyContent="flex-start"
+                className={classes.detailNodeValue}
+              >
+                <InputTextComponent
+                  disabled={disabled}
+                  size="small"
+                  id="standard-disabled"
+                  defaultValue="Sam Brooks"
+                  className={classes.detailNodeValue}
+                  disableUnderline={disabled ? true : false}
+                  inputProps={customInputProps}
+                  fontSize="13"
+                  onChange={onChangeReportInput}
+                />
+              </Box>
+            </Box>
+            <Box display="flex">
+              <Box
+                display="flex"
+                width="50%"
+                justifyContent="flex-end"
+                className={classes.detailNodeLabel}
+              >
+                Title
+              </Box>
+              <Box
+                display="flex"
+                width="100%"
+                justifyContent="flex-start"
+                className={classes.detailNodeValue}
+              >
+                <InputTextComponent
+                  disabled={disabled}
+                  size="small"
+                  id="standard-disabled"
+                  defaultValue="Director"
+                  className={classes.detailNodeValue}
+                  disableUnderline={disabled ? true : false}
+                  inputProps={customInputProps}
+                  fontSize="13"
+                  onChange={onChangeTitleInput}
+                />
+              </Box>
+            </Box>
+            <Box display="flex">
+              <Box
+                display="flex"
+                width="50%"
+                justifyContent="flex-end"
+                className={classes.detailNodeLabel}
+              >
+                Contact's Phone
+              </Box>
+              <Box
+                display="flex"
+                width="100%"
+                justifyContent="flex-start"
+                className={classes.detailNodeValue}
+              >
+                <InputTextComponent
+                  disabled={disabled}
+                  size="small"
+                  id="standard-disabled"
+                  defaultValue="410-123-4567 x230"
+                  className={classes.detailNodeValue}
+                  disableUnderline={disabled ? true : false}
+                  inputProps={customInputProps}
+                  fontSize="13"
+                  onChange={onChangePhoneInput}
+                />
+              </Box>
+            </Box>
+            <Box display="flex">
+              <Box
+                display="flex"
+                width="50%"
+                justifyContent="flex-end"
+                className={classes.detailNodeLabel}
+              >
+                Contact's Email
+              </Box>
+              <Box
+                display="flex"
+                width="100%"
+                justifyContent="flex-start"
+                className={classes.detailNodeValue}
+              >
+                <InputTextComponent
+                  disabled={disabled}
+                  size="small"
+                  id="standard-disabled"
+                  defaultValue="sambrooks@email.com"
+                  className={classes.detailNodeValue}
+                  disableUnderline={disabled ? true : false}
+                  inputProps={customInputProps}
+                  fontSize="13"
+                  onChange={onChangeEmailInput}
+                />
+              </Box>
+            </Box>
+            <Box display="flex" className={classes.customNarrative}>
+              <Box
+                display="flex"
+                width="50%"
+                justifyContent="flex-end"
+                className={classes.detailNodeLabel}
+              >
+                Narrative
+              </Box>
+              <Box
+                display="flex"
+                width="100%"
+                justifyContent="flex-start"
+                className={classes.detailNodeValue}
+              >
+                <InputTextComponent
+                  disabled={disabled}
+                  size="small"
+                  id="standard-disabled"
+                  defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+                varius tortor nibh, sit amet tempor nibh finibus et. Aenean eu
+                enim justo. Vestibulum aliquam hendrerit molestie. Mauris
+                malesuada nisi sit amet augue accumsan tincidunt. Maecenas
+                tincidunt, velit ac porttitor pulvinar, tortor eros facilisis
+                libero, vitae commodo nunc quam et ligula. Ut nec ipsum sapien.
+                Interdum et malesuada fames ac ante ipsum primis in faucibus"
+                  className={classes.detailNodeValue}
+                  disableUnderline={disabled ? true : false}
+                  inputProps={customInputProps}
+                  fontSize="13"
+                  multiline
+                  onChange={onChangeNarrativeInput}
+                />
+              </Box>
             </Box>
           </Box>
-          <Box display="flex">
-            <Box
-              display="flex"
-              width="50%"
-              justifyContent="flex-end"
-              className={classes.detailNodeLabel}
-            >
-              Report Prepared By
-            </Box>
-            <Box
-              display="flex"
-              width="100%"
-              justifyContent="flex-start"
-              className={classes.detailNodeValue}
-            >
-              Sam Brooks
-            </Box>
-          </Box>
-          <Box display="flex">
-            <Box
-              display="flex"
-              width="50%"
-              justifyContent="flex-end"
-              className={classes.detailNodeLabel}
-            >
-              Title
-            </Box>
-            <Box
-              display="flex"
-              width="100%"
-              justifyContent="flex-start"
-              className={classes.detailNodeValue}
-            >
-              Director
-            </Box>
-          </Box>
-          <Box display="flex">
-            <Box
-              display="flex"
-              width="50%"
-              justifyContent="flex-end"
-              className={classes.detailNodeLabel}
-            >
-              Contact's Phone
-            </Box>
-            <Box
-              display="flex"
-              width="100%"
-              justifyContent="flex-start"
-              className={classes.detailNodeValue}
-            >
-              410-123-4567 x230
-            </Box>
-          </Box>
-          <Box display="flex">
-            <Box
-              display="flex"
-              width="50%"
-              justifyContent="flex-end"
-              className={classes.detailNodeLabel}
-            >
-              Contact's Email
-            </Box>
-            <Box
-              display="flex"
-              width="100%"
-              justifyContent="flex-start"
-              className={classes.detailNodeValue}
-            >
-              sambrooks@email.com
-            </Box>
-          </Box>
-          <Box display="flex" className={classes.customNarrative}>
-            <Box
-              display="flex"
-              width="50%"
-              justifyContent="flex-end"
-              className={classes.detailNodeLabel}
-            >
-              Narrative
-            </Box>
-            <Box
-              display="flex"
-              width="100%"
-              justifyContent="flex-start"
-              className={classes.detailNodeValue}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-              varius tortor nibh, sit amet tempor nibh finibus et. Aenean eu
-              enim justo. Vestibulum aliquam hendrerit molestie. Mauris
-              malesuada nisi sit amet augue accumsan tincidunt. Maecenas
-              tincidunt, velit ac porttitor pulvinar, tortor eros facilisis
-              libero, vitae commodo nunc quam et ligula. Ut nec ipsum sapien.
-              Interdum et malesuada fames ac ante ipsum primis in faucibus
-            </Box>
-          </Box>
-        </Box>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </form>
   );
 };
 

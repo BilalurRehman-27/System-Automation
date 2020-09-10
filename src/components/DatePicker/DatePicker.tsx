@@ -8,35 +8,47 @@ import {
 } from "@material-ui/pickers";
 
 type DatePickerProps = {
-  label: string;
+  label?: string;
+  disabled?: boolean;
+  inputProps?: string;
+  onChange: Function;
+  disableUnderline: boolean;
 };
 const DatePicker: FunctionComponent<DatePickerProps> = (props) => {
-  // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    new Date()
-  );
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
+    props.onChange(date);
   };
-  
+
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid container justify="space-around">
-        <KeyboardDatePicker
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="dense"
-          id="date-picker-inline"
-          label={props.label}
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
-        />
-      </Grid>
-    </MuiPickersUtilsProvider>
+    <div style={{ marginTop: 0 }}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Grid container justify="space-around">
+          <KeyboardDatePicker
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="dense"
+            id="date-picker-inline"
+            defaultValue="02/15/2020"
+            disabled={props.disabled}
+            label={props.label}
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+            InputProps={{
+              classes: {
+                input: props.inputProps,
+              },
+              disableUnderline: props.disableUnderline,
+            }}
+          />
+        </Grid>
+      </MuiPickersUtilsProvider>
+    </div>
   );
 };
 export default DatePicker;

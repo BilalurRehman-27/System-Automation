@@ -26,18 +26,25 @@ const useStyles = makeStyles(() =>
     container: {
       padding: '2%'
     },
-    graphContainer: {
-      height: '16rem',
+    barGraph: {
+      height: '40vh',
+      '& p': {
+        color: '#757575',
+        fontWeight: 'bold',
+      }
+    },
+    histogram: {
+      height: '35vh',
       '& p': {
         color: '#757575',
         fontWeight: 'bold',
       }
     },
     cardContainer: {
-      height: '16rem',
+      height: '35vh',
       display: 'flex',
       flexDirection: 'column',
-      backgroundColor: '#616161',
+      backgroundColor: '#3492CA',
       '& h2': {
         fontWeight: 'bold',
         color: '#fff'
@@ -71,7 +78,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
         </Grid>
         <Grid item xs={9}>
           <Card>
-            <CardContent className={classes.graphContainer}>
+            <CardContent className={classes.histogram}>
               <Typography variant="body2" className={classes.text} align="center">
                 Average Number of Days to Close Investigation
               </Typography>
@@ -92,7 +99,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Card>
-            <CardContent className={classes.graphContainer}>
+            <CardContent className={classes.barGraph}>
               <Typography variant="body2" className={classes.text} align="center">
                 Average Number of Days to Close Investigation
               </Typography>
@@ -102,7 +109,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
                   margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                   <XAxis tickLine={false} type="category" dataKey="name" />
                   <YAxis tick={false} stroke="#bdbdbd" type="number" dataKey="value" />
-                  <Bar dataKey="value" fill="#4fc3f7" fillOpacity="0.7" />
+                  <Bar dataKey="value" fill="#3492CA" fillOpacity="0.9" />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>

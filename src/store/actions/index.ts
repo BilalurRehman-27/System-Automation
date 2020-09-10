@@ -1,3 +1,3 @@
 import * as caseListActions from "./casesList.actions";
-
-export { caseListActions };
+import * as fileListActions from "./fileList.actions";
+export { caseListActions , fileListActions};

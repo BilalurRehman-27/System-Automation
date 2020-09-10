@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, MouseEvent } from "react";
 import moment from "moment";
 import {
   makeStyles,
@@ -63,7 +63,10 @@ const CaseEntry: FunctionComponent<CaseEntryProps> = ({
 
   return (
     <Box key={caseItem.id}>
-      <ListItem className={classes.root}>
+      <ListItem
+        onClick={(e: MouseEvent<HTMLElement>) => handleEditCase(e)}
+        className={classes.root}
+      >
         <Grid container alignItems="center" justify="space-between">
           <Grid item xs={7}>
             <Typography className={classes.dateStamp}>
@@ -86,13 +89,13 @@ const CaseEntry: FunctionComponent<CaseEntryProps> = ({
           </Grid>
           <Grid item xs={2}>
             <IconButton
+              onClick={(e: MouseEvent<HTMLElement>) => handleEditCase(e)}
               className={classes.editIcon}
-              onClick={() => handleEditCase(caseItem.id)}
             >
               <EditIcon />
             </IconButton>
             <IconButton
-              onClick={() => handleDeleteCase(caseItem.id)}
+              onClick={(e: MouseEvent<HTMLElement>) => handleDeleteCase(e)}
               className={classes.editIcon}
             >
               <Delete />

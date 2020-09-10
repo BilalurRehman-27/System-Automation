@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, useState } from "react";
+import React, { FunctionComponent, Fragment, useState, MouseEvent } from "react";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import ArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -20,7 +20,7 @@ import {
 import Header from "../../components/PageHeader/Header";
 import Title from "../../components/PageHeader/Title";
 import Entries from "./Tabs/Entries/Entries";
-import Files from "./Tabs/Files/Files";
+import Files from "./Tabs/Files";
 import CaseData from "./Tabs/CaseData/CaseData";
 import AuditHistory from "./Tabs/AuditHistory/AuditHistory";
 import CaseDetailNode from "./CaseDetailNode/CaseDetailNode";
@@ -70,45 +70,48 @@ const CaseDetailTabs: FunctionComponent<CaseDetailTabsProps> = (props) => {
   const [deleteModal, setDeleteModal] = useState(false);
 
   /* Handle edit case button */
-  const handleEditCase = () => {
+  const handleEditCase = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     setModal(true);
-    setEditModal(true)
-  }
+    setEditModal(true);
+  };
 
   /* Handle add case button */
-  const handleAddCase = () => {
+  const handleAddCase = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     setModal(true);
     setAddModal(true);
-  }
+  };
 
   /* Handle delete case button */
-  const handleDeleteCase = () => {
+  const handleDeleteCase = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     setModal(true);
     setDeleteModal(true);
-  }
+  };
 
   /* Common onClose handler */
   const onClose = () => {
-    console.log('onClose() called');
+    console.log("onClose() called");
     setModal(false);
     setEditModal(false);
     setAddModal(false);
     setDeleteModal(false);
-  }
+  };
 
   /* Common onSave handler */
   const onSave = () => {
-    console.log('onSave() called');
+    console.log("onSave() called");
     setModal(false);
     setEditModal(false);
     setAddModal(false);
-  }
+  };
 
   const onDelete = () => {
-    console.log('onDelete() called');
+    console.log("onDelete() called");
     setModal(false);
     setDeleteModal(false);
-  }
+  };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -139,14 +142,14 @@ const CaseDetailTabs: FunctionComponent<CaseDetailTabsProps> = (props) => {
       display: "flex",
       flexGrow: 1,
       justifyContent: "flex-end",
-      '& button': {
+      "& button": {
         maxHeight: 30,
         maxWidth: 90,
-        alignSelf: "center"
-      }
-    }
+        alignSelf: "center",
+      },
+    },
   }))();
-  //TODO: Might need in future 
+  //TODO: Might need in future
   // const statusClasses = makeStyles((theme: Theme) => ({
   //   statusbox: {
   //     padding: 10,
@@ -360,35 +363,46 @@ const CaseDetailTabs: FunctionComponent<CaseDetailTabsProps> = (props) => {
               <Tab
                 classes={tabClasses}
                 className="case-detail-tab"
-                label="Audit History"
+                label="Files"
                 {...a11yProps(1)}
               />
               <Tab
                 classes={tabClasses}
                 className="case-detail-tab"
-                label="Reports"
+                label="Case Data"
                 {...a11yProps(2)}
               />
               <Tab
                 classes={tabClasses}
                 className="case-detail-tab"
-                label="Case Data"
+                label="Audit History"
                 {...a11yProps(3)}
               />
-              <Tab
+              {/* <Tab
                 classes={tabClasses}
                 className="case-detail-tab"
-                label="Files"
+                label="Reports"
                 {...a11yProps(4)}
-              />
+              /> */}
+              
+              
               <div className={classes.addBtnContainer}>
-                <Button
+                {value === 0 && <Button
+                  disableElevation
                   variant="contained"
                   color="primary"
-                  onClick={handleAddCase}
+                  onClick={(e: MouseEvent<HTMLElement>) => handleAddCase(e)}
                 >
                   Add Entry
-                </Button>
+                </Button>}
+                {value === 1 && <Button
+                  disableElevation
+                  variant="contained"
+                  color="primary"
+                  onClick={() => console.log('File Upload!')}
+                >
+                  Upload File
+                </Button>}
               </div>
             </Tabs>
           </div>
@@ -423,17 +437,18 @@ const CaseDetailTabs: FunctionComponent<CaseDetailTabsProps> = (props) => {
               />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <AuditHistory />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              Reports
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              <CaseData />
-            </TabPanel>
-            <TabPanel value={value} index={4}>
               <Files />
             </TabPanel>
+            <TabPanel value={value} index={2}>
+              <CaseData />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <AuditHistory />
+            </TabPanel>
+            {/* <TabPanel value={value} index={4}>
+              Reports
+            </TabPanel> */}
+            
           </div>
         </Box>
       </Box>

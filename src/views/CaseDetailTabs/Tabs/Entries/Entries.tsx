@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, MouseEvent } from 'react';
 import { List } from '@material-ui/core';
 
 /* Custom import */
@@ -12,9 +12,9 @@ import DeleteDialog from '../../../../components/DeleteDialog'
 type EntriesProps = {
     isOpen: boolean;
     editModal: boolean;
-    handleEditCase: () => void;
+    handleEditCase: (e: MouseEvent<HTMLElement>) => void;
     deleteModal: boolean;
-    handleDeleteCase: () => void;
+    handleDeleteCase: (e: MouseEvent<HTMLElement>) => void;
     addModal: boolean;
     onSave: () => void;
     onDelete: () => void;
@@ -33,7 +33,7 @@ const Entries: FunctionComponent<EntriesProps> = (props) => {
         onDelete,
         onClose
     } = props;
-    // console.log(deleteModal);
+
     return (
         <>
             <List className="case-entries-container">
