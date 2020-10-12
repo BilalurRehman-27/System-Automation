@@ -1,2 +1,2 @@
-import ComplainantCard from './ComplainantCard'
-export default ComplainantCard
+import ComplainantCard from './ComplainantCard.container';
+export default ComplainantCard;

@@ -1,70 +1,70 @@
-.wrapper{
-  position: relative;
-  top: 0px;
-  min-height: 100vh;
-  background-color: $page-wrapper-background;
-  .page-wrapper{
+.wrapper {
     position: relative;
-    display: block;
-    min-height: calc(100vh - 65px);
-  }
+    top: 0px;
+    min-height: 100vh;
+    background-color: $page-wrapper-background;
+    .page-wrapper {
+        position: relative;
+        display: block;
+        min-height: calc(100vh - 65px);
+    }
 }
-.app-header{
-  .typography{
-    font-weight: 505;
-    flex-grow: 1;
-    &:hover {
-      cursor: pointer;
+.app-header {
+    .typography {
+        font-weight: 505;
+        flex-grow: 1;
+        &:hover {
+            cursor: pointer;
+        }
+        a {
+            all: unset;
+            color: $white;
+        }
     }
-    a {
-      all: unset;
-      color: $white;
+    .icon {
+        width: 40px;
+        height: 40px;
+        padding: 10px 10px;
     }
-  }
-  .icon{
-    width: 40px;
-    height: 40px;
-    padding:10px 10px;
-  }
-  .search-icon-container,
-  .person-icon-container{
-    border-left:1px solid $white;
-    width: 85px;
-    height: 65px;
-    display: flex;
-    justify-content: center;
-    color:white !important;
-  }
-  .MuiToolbar-gutters{
-    padding-right: 0px;
-  }
-  .nav-routes{
-    display: flex;
-    height: 65px;
-    .nav-link{
-      padding: 20px 13px;
-      font-weight: 600;
-      color: inherit;
-      text-decoration: none;
-      cursor: pointer;
-      &.active{
-        border-bottom: 3px solid $white;
-      }
+    .search-icon-container,
+    .person-icon-container {
+        border-left: 1px solid $white;
+        width: 85px;
+        height: 65px;
+        display: flex;
+        justify-content: center;
+        color: white !important;
     }
-  }
+    .MuiToolbar-gutters {
+        padding-right: 0px;
+    }
+    .nav-routes {
+        display: flex;
+        height: 65px;
+        .nav-link {
+            padding: 20px 13px;
+            font-weight: 600;
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            &.active {
+                border-bottom: 3px solid $white;
+            }
+        }
+    }
 }
-.header{
-  background-color: $white;
-  border-bottom: 1px solid black;
-  height: auto;
-  .header-title{
-    font-size: 25px;
-    font-weight: 600;
-    padding: 10px 20px;
+.header {
+    background-color: $white;
+    border-bottom: 1px solid black;
     height: auto;
-  }
-  .header-sub-title{
-    font-size: 15px;
-    color: $gray;
-  }
+    .header-title {
+        font-size: 25px;
+        font-weight: 600;
+        padding: 20px 10px 10px 35px;
+        height: auto;
+    }
+    .header-sub-title {
+        font-size: 15px;
+        color: $gray;
+    }
 }

@@ -1,38 +1,32 @@
-import React, { FunctionComponent } from "react";
-import { makeStyles, createStyles, Theme, Dialog } from "@material-ui/core";
+import React, { FunctionComponent } from 'react';
+import { makeStyles, createStyles, Dialog } from '@material-ui/core';
 
 /* Modal Props */
 type ModalProps = {
-  open: boolean;
-  maxWidth: any;
-  fullWidth: boolean;
-  minHeight: string;
+    open: boolean;
+    maxWidth: any;
+    fullWidth: boolean;
+    minHeight: string;
 };
 
 const Modal: FunctionComponent<ModalProps> = (props) => {
-  /* Styles for modal */
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      dialog: {
-        minHeight: props.minHeight,
-        padding: 30,
-      },
-    })
-  );
-  const { open, maxWidth, fullWidth } = props;
+    /* Styles for modal */
+    const { open, maxWidth, fullWidth, minHeight, children } = props;
+    const useStyles = makeStyles(() =>
+        createStyles({
+            dialog: {
+                minHeight: minHeight,
+            },
+        }),
+    );
 
-  const classes = useStyles();
+    const classes = useStyles();
 
-  return (
-    <Dialog
-      classes={{ paper: classes.dialog }}
-      open={open}
-      maxWidth={maxWidth}
-      fullWidth={fullWidth}
-    >
-      {props.children}
-    </Dialog>
-  );
+    return (
+        <Dialog classes={{ paper: classes.dialog }} open={open} maxWidth={maxWidth} fullWidth={fullWidth}>
+            {children}
+        </Dialog>
+    );
 };
 
 export default Modal;

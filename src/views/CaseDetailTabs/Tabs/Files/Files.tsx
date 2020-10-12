@@ -1,62 +1,80 @@
-import React, {useEffect, FunctionComponent, useState} from "react";
-import {makeStyles, Paper} from "@material-ui/core";
-import {fileListData, modalData} from "../../../../assets/mock/DummyData";
-import Loader from "../../../../components/Loader";
-import Modal from "../../../../components/Modal";
-import DeleteDialog from "../../../../components/DeleteDialog";
-import DataTable from "../../../../components/DataTable";
+import React, { FunctionComponent, useState, MouseEvent } from 'react';
+import moment from 'moment';
+import { makeStyles, Paper, Typography } from '@material-ui/core';
+import { modalData } from '../../../../assets/mock/DummyData';
+import Loader from '../../../../components/Loader';
+import Modal from '../../../../components/Modal';
+import DeleteDialog from '../../../../components/DeleteDialog';
+import DataTable from '../../../../components/DataTable';
+import FileUploadDialog from '../../../../components/FileUploadDialog';
+import { CASE_DETAIL_TABS } from '../../../../store/caseManagement.constants';
+import { File } from '../../../../store/modules/fileList/types';
+import prettyBytes from 'pretty-bytes';
+
 type FilesProps = {
     isLoading?: boolean;
     data?: any;
-    getFileList?: any
+    handleDeleteCase: (e: MouseEvent<HTMLElement>, id: string) => void;
+    isOpen: boolean;
+    onClose: (modalType?: string) => void;
+    onDelete: (e: MouseEvent<HTMLElement>, type: string) => void;
+    downloadCaseFile: (e: MouseEvent<HTMLElement>, type: string, name: string) => void;
+    uploadModal: boolean;
+    deleteModal: boolean;
+    caseID: string;
 };
+type fileListType = {
+    id: number;
+    fileName: string;
+    size: string;
+    uploadedDate: string;
+    documentType: string;
+};
+
 interface IColumn {
-    id:
-        | "name"
-        | "dateUploaded"
-        | "size"
-        | "type"
+    id: 'fileName' | 'uploadedDate' | 'size' | 'documentType';
     label: string;
     minWidth?: number;
-    align?: "right" | "left" | "center";
+    align?: 'right' | 'left' | 'center';
     format?: (value: number) => string;
 }
+
 const columns: IColumn[] = [
-    {id: "name", label: "Name", minWidth: 250},
-    {id: "dateUploaded", label: "Date Uploaded", minWidth: 200},
+    { id: 'fileName', label: 'Name', minWidth: 250 },
+    { id: 'uploadedDate', label: 'Date Uploaded', minWidth: 200 },
     {
-        id: "size",
-        label: "Size",
+        id: 'size',
+        label: 'Size',
         minWidth: 100,
-        align: "left",
+        align: 'left',
     },
     {
-        id: "type",
-        label: "Type",
+        id: 'documentType',
+        label: 'Type',
         minWidth: 100,
-        align: "left",
-    }
+        align: 'left',
+    },
 ];
 const useStyles = makeStyles({
     root: {
         padding: 40,
-        backgroundColor: "rgba(224, 224, 224, 1);",
+        backgroundColor: 'rgba(224, 224, 224, 1);',
     },
     container: {
-        maxHeight: "100%",
-        backgroundColor: "#FFFFFF",
+        maxHeight: '100%',
+        backgroundColor: '#FFFFFF',
     },
     editIcon: {
         opacity: 0,
     },
     rowContainer: {
-        cursor: "pointer",
-        "&:hover ": {
-            backgroundColor: "#eeeeee",
-            transition: "ease-in 200ms",
-            "& button": {
+        cursor: 'pointer',
+        '&:hover ': {
+            backgroundColor: '#eeeeee',
+            transition: 'ease-in 200ms',
+            '& button': {
                 opacity: 1,
-                transition: "ease-in 200ms",
+                transition: 'ease-in 200ms',
             },
         },
     },
@@ -64,74 +82,89 @@ const useStyles = makeStyles({
 const Files: FunctionComponent<FilesProps> = (props) => {
     const classes = useStyles();
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     /* State for modals */
-    const [isOpen, setModal] = useState(false);
-    const {getFileList, data} = props;
-
-    useEffect(() => {
-        getFileList();
-    }, [getFileList]);
-
+    const {
+        data,
+        handleDeleteCase,
+        isOpen,
+        onClose,
+        onDelete,
+        downloadCaseFile,
+        uploadModal,
+        deleteModal,
+        isLoading,
+        caseID,
+    } = props;
+    const getFileList: fileListType[] = [];
+    if (data.length) {
+        data.map((caseItem: File) => {
+            const name = caseItem.fileName;
+            const fileExtension = caseItem.fileName.slice(name.lastIndexOf('.'), name.length);
+            return getFileList.push({
+                id: caseItem.id,
+                fileName: caseItem.metadata.fileName !== name ? `${caseItem.metadata.fileName}${fileExtension}` : name,
+                uploadedDate: moment(caseItem.uploadedDate).format('M/DD/YYYY'),
+                size: prettyBytes(parseFloat(caseItem.size)),
+                documentType: caseItem.metadata.type,
+            });
+        });
+    }
     const handleChangePage = (event: unknown, newPage: number) => {
-         console.log('newPage',newPage);
         setPage(newPage);
     };
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-         console.log('rowPage',event.target.value);
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    /* Handle delete case button */
-    const handleDeleteCase = (id: any,e:any) => {
-         e.stopPropagation();
-        setModal(true);
-        console.log('id', id);
-    }
-    const onClose = () => {
-        setModal(false);
-    }
-    const onDelete = () => {
-        console.log('onDelete() called');
-        setModal(false);
-    }
-    const onClickRow = (id:number,e:any) => {
+    const onClickRow = (id: number, e: any) => {
         e.stopPropagation();
-        console.log('onCLICEKUD',id);
-
-    }
-    const isLoading = props.isLoading;
-    if (isLoading) return <Loader/>;
+    };
+    if (isLoading) return <Loader />;
     return (
-        <Paper className="case-entries-container">
-            <DataTable
-                className={classes.container}
-                columns={columns}
-                data={data}
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={fileListData.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                handleChangePage={handleChangePage}
-                handleChangeRowsPerPage={handleChangeRowsPerPage}
-                handleDeleteCase={handleDeleteCase}
-                onClickRow={onClickRow}
-                deleteFlag={true}
-                editFlag={false}/>
-            <Modal open={isOpen} maxWidth={modalData[0].maxWidth} fullWidth={modalData[0].fullWidth} minHeight={'10vh'}>
-                <DeleteDialog
-                    onClose={onClose}
-                    onDelete={onDelete}
-                    contentTitle="Permanently delete this entry ?"
-                    content=""
-                />
+        <>
+            {getFileList.length > 0 ? (
+                <Paper className="case-entries-container">
+                    {
+                        <DataTable
+                            className={classes.container}
+                            columns={columns}
+                            data={getFileList}
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={getFileList.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            handleChangePage={handleChangePage}
+                            handleChangeRowsPerPage={handleChangeRowsPerPage}
+                            handleDeleteCase={handleDeleteCase}
+                            onClickRow={onClickRow}
+                            deleteFlag={true}
+                            editFlag={false}
+                            downloadCaseFile={downloadCaseFile}
+                        />
+                    }
+                </Paper>
+            ) : (
+                <Typography variant="subtitle2" align="center">
+                    No Files found
+                </Typography>
+            )}
+            <Modal open={isOpen} maxWidth={modalData[0].maxWidth} fullWidth={modalData[0].fullWidth} minHeight={'20vh'}>
+                {deleteModal && (
+                    <DeleteDialog
+                        onClose={onClose}
+                        onDelete={onDelete}
+                        contentTitle="Permanently delete this entry ?"
+                        content=""
+                        type={CASE_DETAIL_TABS.FILES}
+                    />
+                )}
+                {uploadModal && <FileUploadDialog onClose={onClose} caseID={caseID} />}
             </Modal>
-        </Paper>
-    )
+        </>
+    );
 };
 
 export default Files;

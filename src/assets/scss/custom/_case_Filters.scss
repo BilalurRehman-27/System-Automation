@@ -1,8 +1,15 @@
 .case-filters-container {
-  .PrivateTabIndicator-colorPrimary-10 {
-    background-color: #fff;
-  }
-  .MuiTabs-flexContainer {
-    margin-top: 0;
-  }
+    margin: -5px 20px 5px 30px;
+.MuiInputBase-input{
+    width: 100px;
+}
+.PrivateTabIndicator-colorPrimary-10 {
+        background-color: #fff;
+    }
+    .MuiTabs-flexContainer {
+        margin-top: 0;
+    }
+    .MuiSelect-selectMenu {
+        width: 154px;
+    }
 }

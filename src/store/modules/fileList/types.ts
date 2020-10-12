@@ -1,15 +1,19 @@
 export type File = {
     id: number;
-    name: string,
-    dateUploaded: string,
-    size: string,
-    type: string
+    fileName: string;
+    size: string;
+    uploadedDate: string;
+    metadata: {
+        type: string;
+        size: string;
+        fileName: string;
+    };
 };
 export type FileList = File[];
 export interface Error {
     errorMessage: string;
 }
-export const GET_CASES_REQUEST = "@todo/GET_CASES_REQUEST";
+export const GET_CASES_REQUEST = '@todo/GET_CASES_REQUEST';
 interface GetFileList {
     data(data: FileList): FileList;
     status: string;

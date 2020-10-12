@@ -1,12 +1,10 @@
-import {combineReducers} from "redux";
-import todoReducer from "./modules/todo-list/reducers/todoReducers";
-import caseListReducer from "./reducers/caseLists.reducers";
-import fileListReducer from "./reducers/fileList.reducers";
+import { combineReducers } from 'redux';
+import todoReducer from './modules/todo-list/reducers/todoReducers';
+import caseReducer from './reducers/cases.reducers';
 
 const rootReducer = combineReducers({
     todoReducer,
-    cases: caseListReducer,
-    caseFiles:fileListReducer
+    cases: caseReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

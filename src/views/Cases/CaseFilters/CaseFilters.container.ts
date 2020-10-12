@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
-import CaseFilters from "./CaseFilters";
-import { Case } from "../../../store/modules/casesList/types";
-
-const mapStateToProps = (state: Case) => {
-  return {};
+import { connect } from 'react-redux';
+import CaseFilters from './CaseFilters';
+import { getCasesListBegin } from '../../../store/actions/casesList.actions';
+const mapStateToProps = (state: any) => {
+    return { state };
 };
-
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    caseList: getCasesListBegin,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(CaseFilters);

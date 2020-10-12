@@ -1,14 +1,14 @@
-import {connect} from "react-redux";
-import Files from "./Files";
-import {getFileListBegin} from "../../../../store/actions/fileList.actions";
-import {FileList} from "../../../../store/modules/fileList/types";
-import {getFilesList, getFileListLoadingStatus} from "../../../../store/selectors/fileList.selectors";
-
+import { connect } from 'react-redux';
+import Files from './Files';
+import { FileList } from '../../../../store/modules/fileList/types';
+import { getFilesList, getFileListLoadingStatus } from '../../../../store/selectors/caseFileList.selectors';
+import { getFileListBegin } from '../../../../store/actions/caseFileList.actions';
+import { getSelectedCaseID } from '../../../../store/selectors/caseList.selectors';
 const mapStateToProps = (state: FileList) => {
-    console.log('state', state);
     const data = getFilesList(state);
     const isLoading = getFileListLoadingStatus(state);
-    return {data, isLoading};
+    const caseID = getSelectedCaseID(state);
+    return { data, isLoading, caseID };
 };
 const mapDispatchToProps = {
     getFileList: getFileListBegin,

@@ -1,2 +1,2 @@
-import MultiSelectComponent from './MultiSelectComponent'
-export default MultiSelectComponent
+import MultiSelectComponent from './MultiSelectComponent';
+export default MultiSelectComponent;

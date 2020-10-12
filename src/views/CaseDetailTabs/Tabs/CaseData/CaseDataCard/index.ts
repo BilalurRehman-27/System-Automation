@@ -1,2 +1,2 @@
-import CaseDataCard from "./CaseDataCard"
-export default CaseDataCard
+import CaseDataCard from './CaseDataCard.container';
+export default CaseDataCard;

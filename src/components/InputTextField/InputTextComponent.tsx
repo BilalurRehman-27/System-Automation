@@ -38,7 +38,6 @@ const InputTextComponent: FunctionComponent<InputTextComponentProps> = (
       }}
       multiline={props.multiline ? true : false}
       onChange={setInputText}
-      // variant="outlined"
     />
   );
 };

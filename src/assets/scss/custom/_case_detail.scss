@@ -1,35 +1,42 @@
-.case-detail{
+.case-detail {
   min-height: 81.5vh;
-  .case-detail-container{
-    min-width: 150px !important;
-    width: 225px;
-    overflow: hidden;
-    padding: 33px 10px 50px 50px;
-    min-height: 100%;
-    background-color: $off-white;
+  background-color: #FBFCFB;
+  .case-detail-container {
+      min-width: 260px !important;
+      width: 225px;
+      overflow: hidden;
+      padding: 33px 10px 50px 50px;
+      min-height: 100%;
+      background-color: $off-white;
   }
-  .tab-nav-container{
-      padding: 20px;
+  .case-detail-container-closed {
+      width: 30px;
+      overflow: hidden;
+      min-height: 100%;
+      background-color: $off-white;
+  }
+  .tab-nav-container {
+      padding: 40px;
       border-bottom: 1px solid $gray-2;
       .MuiTab-root {
-        min-width: 100px;
+          min-width: 100px;
       }
   }
 }
-.case-detail-show-hide-btn{
+.case-detail-show-hide-btn {
   position: relative;
   top: -78px;
   // top: -15px;
-  border: 1px solid gray;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
   border-radius: 100px;
   background: white;
   color: gray;
-  font-size: 17px;
+  font-size: 30px !important;
   padding: 5px;
-  &.opened{
-    left: -15px;
+  &.opened {
+      left: -15px;
   }
-  &.closed{
-    left: -8px;
+  &.closed {
+      left: -15px;
   }
 }
